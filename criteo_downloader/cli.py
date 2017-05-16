@@ -3,7 +3,6 @@ from functools import partial
 import click
 
 from criteo_downloader import config, downloader
-from criteo_downloader.config import CriteoAccount
 
 
 def config_option(config_function, **kwargs):
@@ -15,7 +14,7 @@ def config_option(config_function, **kwargs):
             default = config_function()
         if kwargs.get('multiple'):
             default = [default]
-        return click.option('--' + config_function.__name__, default=default,
+        return click.option('--' + config_function.__name__,
                             help=config_function.__doc__ + '. Default: "' + str(default) + '"',
                             **kwargs)(function)
 
@@ -26,9 +25,10 @@ def apply_options(**kwargs):
     """Applies passed cli parameters to config.py"""
     for key, value in kwargs.items():
         if key == 'accounts':
-            setattr(config, key, partial(lambda v: [CriteoAccount(*args) for args in v], value))
+            if value !=():
+                setattr(config, key, partial(lambda v: [config.CriteoAccount(*args) for args in v], value))
         else:
-            setattr(config, key, partial(lambda v: v, value))
+            if value: setattr(config, key, partial(lambda v: v, value))
 
 
 @click.command()

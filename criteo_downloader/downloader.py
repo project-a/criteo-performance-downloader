@@ -6,6 +6,7 @@ import json
 import logging
 import shutil
 import tempfile
+import sys
 import xml.etree.ElementTree as etree
 from collections import namedtuple
 from datetime import datetime, timedelta
