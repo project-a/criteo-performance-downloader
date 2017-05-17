@@ -8,7 +8,7 @@ import shutil
 import tempfile
 import sys
 import xml.etree.ElementTree as etree
-from collections import namedtuple
+from collections import namedtuple,defaultdict
 from datetime import datetime, timedelta
 from pathlib import Path
 from urllib.request import urlopen
@@ -77,9 +77,12 @@ def download_performance(api_client: Client, account: CriteoAccount):
         download_url = api_client.getReportDownloadUrl(job_id)
         table = etree.parse(urlopen(download_url)).getroot().getchildren()[0]
         rows = [i for i in table if i.tag == 'rows'][0]
-        report_data = {row.attrib['dateTime']: row.attrib for row in rows}
-
-        for day, data in report_data.items():
+        report_data=defaultdict()##to easily append later on
+        for row in rows:## create dictionary with days as key, each day contains a list of campaign performances
+            if row.attrib['dateTime'] not in report_data:
+                report_data[row.attrib['dateTime']]=[]
+            report_data[row.attrib['dateTime']].append(row.attrib.copy())
+        for day in report_data:## write out in json format
             relative_filepath = Path(
                 '{date}/criteo/campaign-performance-{account_filename}-{version}.json.gz'.format(
                     date=day.replace('-', '/'),
@@ -91,7 +94,7 @@ def download_performance(api_client: Client, account: CriteoAccount):
                 tmp_filepath = Path(tmp_dir, filepath)
 
                 with gzip.open(str(filepath), 'wt') as criteo_performance_file:
-                    criteo_performance_file.write(json.dumps(data))
+                    criteo_performance_file.write(json.dumps(report_data[day]))
 
                 shutil.move(str(tmp_filepath), str(filepath))
 
