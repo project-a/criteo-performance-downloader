@@ -8,7 +8,8 @@ setup(
 
     install_requires=[
         'click>=6.0',
-        'pycriteo==0.0.2'
+        'pycriteo==0.0.2',
+        'suds-jurko>=0.6'
     ],
     packages=find_packages(),
 
