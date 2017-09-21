@@ -1,4 +1,10 @@
 # Changelog
+
+## 1.2.0 
+*2017-09-21* 
+
+- Made the config and click commands discoverable in [mara-app](https://github.com/mara/mara-app) >= 1.2.0
+
 ## 1.1.1
 *2017-06-25*
 - Ad explicit dependency for suds
