@@ -1,8 +1,11 @@
 # Changelog
 
+## 1.2.1 
+*2017-12-28* 
+- fixed problem for relative path
+
 ## 1.2.0 
 *2017-09-21* 
-
 - Made the config and click commands discoverable in [mara-app](https://github.com/mara/mara-app) >= 1.2.0
 
 ## 1.1.1

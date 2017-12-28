@@ -6,12 +6,12 @@ import json
 import logging
 import shutil
 import tempfile
-import sys
 import xml.etree.ElementTree as etree
 from collections import namedtuple,defaultdict
 from datetime import datetime, timedelta
 from pathlib import Path
 from urllib.request import urlopen
+from os.path import abspath
 
 from pycriteo import Client
 from suds.sudsobject import asdict
@@ -89,10 +89,9 @@ def download_performance(api_client: Client, account: CriteoAccount):
                     account_filename=account.normalized_name,
                     version=OUTPUT_FILE_VERSION))
 
-            filepath = ensure_data_directory(relative_filepath)
+            filepath = abspath(ensure_data_directory(relative_filepath))
             with tempfile.TemporaryDirectory() as tmp_dir:
                 tmp_filepath = Path(tmp_dir, filepath)
-
                 with gzip.open(str(filepath), 'wt') as criteo_performance_file:
                     criteo_performance_file.write(json.dumps(report_data[day]))
 
@@ -115,7 +114,7 @@ def download_account_structure(api_client: Client, account: CriteoAccount):
     relative_filepath = Path('criteo-account-structure-{}-{version}.json.gz'.format(
         account.normalized_name,
         version=OUTPUT_FILE_VERSION))
-    filepath = ensure_data_directory(relative_filepath)
+    filepath = abspath(ensure_data_directory(relative_filepath))
     account_structure = []
     for campaign in criteo_campaigns:
         for single_campaign in campaign[1]:
@@ -253,7 +252,6 @@ def write_account_structure_data_to_json(account_structure_data: [], filepath: P
     json_data = json.dumps(account_structure_data)
     with tempfile.TemporaryDirectory() as tmp_dir:
         tmp_filepath = Path(tmp_dir, filepath)
-
         with gzip.open(str(tmp_filepath), 'wt') as tmp_campaign_structure_file:
             tmp_campaign_structure_file.write(json_data)
 
