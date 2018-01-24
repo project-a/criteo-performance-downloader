@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.2 
+*2018-01-24* 
+- Retrieve Criteo WSDL only when actually needed, not when importing the library
+
 ## 1.2.1 
 *2017-12-28* 
 - fixed problem for relative path
