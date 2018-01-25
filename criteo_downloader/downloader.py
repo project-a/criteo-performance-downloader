@@ -13,7 +13,7 @@ from pathlib import Path
 from urllib.request import urlopen
 from os.path import abspath
 
-from pycriteo import Client
+
 from suds.sudsobject import asdict
 
 from criteo_downloader import config
@@ -22,7 +22,7 @@ from criteo_downloader.config import CriteoAccount
 OUTPUT_FILE_VERSION = 'v1'
 
 
-def create_criteo_client(account: CriteoAccount) -> Client:
+def create_criteo_client(account: CriteoAccount):
     """Creates a criteo API client for a given Criteo account
 
     Args:
@@ -32,6 +32,7 @@ def create_criteo_client(account: CriteoAccount) -> Client:
         A pycriteo API client
 
     """
+    from pycriteo import Client
     return Client(username=account.username, password=account.password, token=account.token)
 
 
@@ -45,7 +46,7 @@ def download_data():
         download_data_set(api_client, account)
 
 
-def download_data_set(api_client: Client, account: CriteoAccount):
+def download_data_set(api_client, account: CriteoAccount):
     """Downloads the account structure and the Criteo campaign performance
 
     Args:
@@ -57,7 +58,7 @@ def download_data_set(api_client: Client, account: CriteoAccount):
     download_account_structure(api_client, account)
 
 
-def download_performance(api_client: Client, account: CriteoAccount):
+def download_performance(api_client, account: CriteoAccount):
     """Downloads the performance data for a give Criteo account
 
         Args:
@@ -98,7 +99,7 @@ def download_performance(api_client: Client, account: CriteoAccount):
                 shutil.move(str(tmp_filepath), str(filepath))
 
 
-def download_account_structure(api_client: Client, account: CriteoAccount):
+def download_account_structure(api_client, account: CriteoAccount):
     """Downloads the criteo account structure for a given account
 
     Args:
@@ -123,7 +124,7 @@ def download_account_structure(api_client: Client, account: CriteoAccount):
     write_account_structure_data_to_json(account_structure, filepath=filepath)
 
 
-def schedule_report_jobs(api_client: Client) -> [int]:
+def schedule_report_jobs(api_client) -> [int]:
     """ Triggers a Criteo report
 
     Args:
@@ -161,7 +162,7 @@ def schedule_report_jobs(api_client: Client) -> [int]:
     return job_ids
 
 
-def is_job_completed(api_client: Client, job_id: int) -> bool:
+def is_job_completed(api_client, job_id: int) -> bool:
     """Checks if a scheduled report job is completed
 
     Args:

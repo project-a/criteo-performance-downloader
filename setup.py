@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='criteo-performance-downloader',
-    version='1.2.0',
+    version='1.2.2',
 
     description="Downloads data from the Criteo API to local files",
 
