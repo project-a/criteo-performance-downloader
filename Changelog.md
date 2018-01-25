@@ -3,7 +3,7 @@
 ## 1.2.2
 *2018-01-25* 
 
-- import pycriteo package only when needed (importing results in https requests for a wsdl file being mad)
+- import pycriteo package only when needed (importing results in https requests for a wsdl file being made)
 
 ## 1.2.1 
 *2017-12-28* 
