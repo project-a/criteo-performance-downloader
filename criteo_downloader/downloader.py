@@ -9,6 +9,7 @@ import tempfile
 import time
 import xml.etree.ElementTree as etree
 from xml.sax._exceptions import SAXParseException
+from xml.etree.ElementTree import ParseError
 from collections import namedtuple,defaultdict
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -60,7 +61,7 @@ def download_data_set(api_client, account: CriteoAccount):
         try:
             download_performance(api_client, account)
             break
-        except SAXParseException as e:
+        except (SAXParseException, ParseError) as e:
             if attempt_number == config.retry_attempts() - 1:
                 logging.info(f'XML error trying to download account {account}: {e}, too many attempts. Giving up...')
                 raise e

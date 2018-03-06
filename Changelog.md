@@ -1,5 +1,11 @@
 # Changelog
 
+
+## 1.3.1
+*2018-03-06* 
+
+- tolerate ParseError to apply retry logic, as well
+
 ## 1.3.0
 *2018-03-06* 
 
