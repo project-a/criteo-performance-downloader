@@ -36,6 +36,8 @@ def apply_options(**kwargs):
                default=('accountname', 'username', 'password', 'token'))
 @config_option(config.data_dir)
 @config_option(config.first_date)
+@config_option(config.retry_timeout)
+@config_option(config.retry_attempts)
 def download_data(**kwargs):
     """
     Downloads data.

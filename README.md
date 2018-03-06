@@ -109,3 +109,6 @@ To run the Criteo Performance Downloader call `download-criteo-performance-data`
     --accounts accountname username passwort token \
     --accounts accountname2 username2 passwort2 token2 \
     --data_dir /tmp/criteo
+    --retry_timeout 10
+    --retry_attempts 3
+

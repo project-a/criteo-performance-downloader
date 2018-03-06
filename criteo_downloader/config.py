@@ -49,9 +49,9 @@ def accounts() -> [CriteoAccount]:
 
 def retry_attempts() -> int:
     """How many times retry to download an account before giving up"""
-    return 3
+    return 5
 
 
 def retry_timeout() -> int:
     """How many seconds to wait before retrying to download an account"""
-    return 10
+    return 30
