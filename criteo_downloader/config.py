@@ -45,3 +45,13 @@ def first_date() -> str:
 def accounts() -> [CriteoAccount]:
     """A list of Criteo accounts provided by <accountname username password token> Accepts multiple accounts"""
     return [CriteoAccount('accountname', 'username', 'password', 'token')]
+
+
+def retry_attempts() -> int:
+    """How many times retry to download an account before giving up"""
+    return 3
+
+
+def retry_timeout() -> int:
+    """How many seconds to wait before retrying to download an account"""
+    return 10

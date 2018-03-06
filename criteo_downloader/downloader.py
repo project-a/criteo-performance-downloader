@@ -6,7 +6,9 @@ import json
 import logging
 import shutil
 import tempfile
+import time
 import xml.etree.ElementTree as etree
+from xml.sax._exceptions import SAXParseException
 from collections import namedtuple,defaultdict
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -54,7 +56,18 @@ def download_data_set(api_client, account: CriteoAccount):
         account: A Criteo Account
 
     """
-    download_performance(api_client, account)
+    download_failed = True
+    for attempt_number in range(config.retry_attempts()):
+        try:
+            download_performance(api_client, account)
+            download_failed = False
+            break
+        except SAXParseException as e:
+            if attempt_number == config.retry_attempts() - 1:
+                logging.info(f'XML error trying to download account {account}: {e}, too many attempts. Giving up...')
+                raise e
+            logging.info(f'XML error trying to download account {account} on attempt {attempt_number}: {e}, retrying...')
+            time.sleep(config.retry_timeout())
     download_account_structure(api_client, account)
 
 
