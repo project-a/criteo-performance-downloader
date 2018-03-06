@@ -56,11 +56,9 @@ def download_data_set(api_client, account: CriteoAccount):
         account: A Criteo Account
 
     """
-    download_failed = True
     for attempt_number in range(config.retry_attempts()):
         try:
             download_performance(api_client, account)
-            download_failed = False
             break
         except SAXParseException as e:
             if attempt_number == config.retry_attempts() - 1:

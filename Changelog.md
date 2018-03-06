@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.0
+*2018-03-06* 
+
+- retry for a given amount of times the download of any account in case of XML parsing errors
+
+
 ## 1.2.2
 *2018-01-25* 
 
