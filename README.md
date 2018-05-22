@@ -7,8 +7,8 @@ By default, it creates two data sets:
 
 1. **Campaign Performance** consists of measures such as impressions, clicks and cost. The script creates one file per day in a specified time rage:
 
-        data/2016/10/30/criteo/campaign-performance-accountname-v1.json.gz
-        data/2016/10/31/criteo/campaign-performance-accountname-v1.json.gz
+        data/2016/10/30/criteo/campaign-performance-accountname-v2.json.gz
+        data/2016/10/31/criteo/campaign-performance-accountname-v2.json.gz
 
     The resulting JSON files contain arrays of dictionaries per campaign: 
 
@@ -38,7 +38,7 @@ By default, it creates two data sets:
 
 2. **Account Structure** information. This file is always overwritten by the script:
 
-        data/criteo/criteo-account-structure-accountname-v1.json.gz
+        data/criteo/criteo-account-structure-accountname-v2.json.gz
 
     The resulting JSON files contain arrays of dictionaries per campaign: 
 
@@ -50,17 +50,18 @@ By default, it creates two data sets:
                 "campaignID": 123456,
                 "campaignName": "Lower Funnel 2016",
                 "campaignBid": {
-                "cpaBid": null,
-                "cpcBid": {
-                    "cpc": 0.76
-                },
-                "biddingStrategy": "Cpc"
+                    "cpaBid": null,
+                    "cpcBid": {
+                       "cpc": 0.76
+                    },
+                    "biddingStrategy": "Cpc"
                 },
                 "budgetID": 56789,
                 "remainingDays": 6,
                 "status": "RUNNING",
                 "categoryBids": [],
-                "platform": ""
+                "platform": "",
+                "currency": "EUR"
             },
         ..
         ]

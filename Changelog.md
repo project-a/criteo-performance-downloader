@@ -1,47 +1,36 @@
 # Changelog
 
+## 1.4.0
 
-## 1.3.1
-*2018-03-06* 
+- Include currency in account structure
 
-- tolerate ParseError to apply retry logic, as well
+**required changes**
 
-## 1.3.0
-*2018-03-06* 
+- File format version changed from `v1` to `v2`, adapt etl
+ 
 
-- retry for a given amount of times the download of any account in case of XML parsing errors
+## 1.3.0 - 1.3.1 (2018-03-06) 
+
+- Retry for a given amount of times the download of any account in case of XML parsing errors
+- Tolerate ParseError to apply retry logic, as well
 
 
-## 1.2.2
-*2018-01-25* 
 
-- import pycriteo package only when needed (importing results in https requests for a wsdl file being made)
+## 1.2.0 - 1.2.2 (2017-09-21)
+ 
+- Make the config and click commands discoverable in [mara-app](https://github.com/mara/mara-app) >= 1.2.0
+- Fix problem for relative path
+- Import pycriteo package only when needed (importing results in https requests for a wsdl file being made)
 
-## 1.2.1 
-*2017-12-28* 
-- fixed problem for relative path
 
-## 1.2.0 
-*2017-09-21* 
-- Made the config and click commands discoverable in [mara-app](https://github.com/mara/mara-app) >= 1.2.0
+## 1.1.0 - 1.1.1 (2017-05-17)
 
-## 1.1.1
-*2017-06-25*
+- fixed dictionary structure which allowed only for one campaign per day
 - Ad explicit dependency for suds
 
-## 1.1.0
-*2017-05-17*
-- fixed dictionary structure which allowed only for one campaign per day
 
-## 1.0.2
-*2017-05-16
-- removed click default values to make compatable with mara
-
-## 1.0.1
-*2017-05-05*
-- made cli and config discoverable
-
-## 1.0.0 
-*2017-03-02* 
+## 1.0.0 - 1.0.2 (2017-03-02) 
 
 - Initial version
+- made cli and config discoverable
+- removed click default values to make compatable with mara

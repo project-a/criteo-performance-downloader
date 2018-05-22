@@ -6,23 +6,19 @@ import json
 import logging
 import shutil
 import tempfile
-import time
 import xml.etree.ElementTree as etree
-from xml.sax._exceptions import SAXParseException
-from xml.etree.ElementTree import ParseError
-from collections import namedtuple,defaultdict
+from collections import namedtuple, defaultdict
 from datetime import datetime, timedelta
+from os.path import abspath
 from pathlib import Path
 from urllib.request import urlopen
-from os.path import abspath
-
 
 from suds.sudsobject import asdict
 
 from criteo_downloader import config
 from criteo_downloader.config import CriteoAccount
 
-OUTPUT_FILE_VERSION = 'v1'
+OUTPUT_FILE_VERSION = 'v2'
 
 
 def create_criteo_client(account: CriteoAccount):
@@ -90,12 +86,12 @@ def download_performance(api_client, account: CriteoAccount):
         download_url = api_client.getReportDownloadUrl(job_id)
         table = etree.parse(urlopen(download_url)).getroot().getchildren()[0]
         rows = [i for i in table if i.tag == 'rows'][0]
-        report_data=defaultdict()##to easily append later on
-        for row in rows:## create dictionary with days as key, each day contains a list of campaign performances
+        report_data = defaultdict()  ##to easily append later on
+        for row in rows:  ## create dictionary with days as key, each day contains a list of campaign performances
             if row.attrib['dateTime'] not in report_data:
-                report_data[row.attrib['dateTime']]=[]
+                report_data[row.attrib['dateTime']] = []
             report_data[row.attrib['dateTime']].append(row.attrib.copy())
-        for day in report_data:## write out in json format
+        for day in report_data:  ## write out in json format
             relative_filepath = Path(
                 '{date}/criteo/campaign-performance-{account_filename}-{version}.json.gz'.format(
                     date=day.replace('-', '/'),
@@ -122,6 +118,7 @@ def download_account_structure(api_client, account: CriteoAccount):
     logging.info(
         'downloading account structure report for account {account}'.format(account=account))
     advertiser_name = api_client.getAccount()['advertiserName']
+    currency = api_client.getAccount()['currency']
     criteo_campaigns = api_client.getCampaigns(campaignSelector={})
 
     relative_filepath = Path('criteo-account-structure-{}-{version}.json.gz'.format(
@@ -132,7 +129,7 @@ def download_account_structure(api_client, account: CriteoAccount):
     for campaign in criteo_campaigns:
         for single_campaign in campaign[1]:
             account_structure.append(
-                map_account_structure(single_campaign, account, advertiser_name))
+                map_account_structure(single_campaign, account, advertiser_name, currency))
     write_account_structure_data_to_json(account_structure, filepath=filepath)
 
 
@@ -234,7 +231,7 @@ def _suds_to_dict(data) -> {}:
 
 
 def map_account_structure(account_structure: object, account: CriteoAccount,
-                          advertiser_name: str) -> {}:
+                          advertiser_name: str, currency: str) -> {}:
     """
 
     Args:
@@ -251,6 +248,7 @@ def map_account_structure(account_structure: object, account: CriteoAccount,
     account_structure['channel'] = account.channel
     account_structure['partner'] = account.partner
     account_structure['advertiserName'] = advertiser_name
+    account_structure['currency'] = currency
     return account_structure
 
 
