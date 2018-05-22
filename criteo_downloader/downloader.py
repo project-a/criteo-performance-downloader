@@ -6,12 +6,15 @@ import json
 import logging
 import shutil
 import tempfile
+import time
 import xml.etree.ElementTree as etree
 from collections import namedtuple, defaultdict
 from datetime import datetime, timedelta
 from os.path import abspath
 from pathlib import Path
 from urllib.request import urlopen
+from xml.etree.ElementTree import ParseError
+from xml.sax._exceptions import SAXParseException
 
 from suds.sudsobject import asdict
 
@@ -61,7 +64,8 @@ def download_data_set(api_client, account: CriteoAccount):
             if attempt_number == config.retry_attempts() - 1:
                 logging.info(f'XML error trying to download account {account}: {e}, too many attempts. Giving up...')
                 raise e
-            logging.info(f'XML error trying to download account {account} on attempt {attempt_number}: {e}, retrying...')
+            logging.info(
+                f'XML error trying to download account {account} on attempt {attempt_number}: {e}, retrying...')
             time.sleep(config.retry_timeout())
     download_account_structure(api_client, account)
 
@@ -233,7 +237,6 @@ def _suds_to_dict(data) -> {}:
 def map_account_structure(account_structure: object, account: CriteoAccount,
                           advertiser_name: str, currency: str) -> {}:
     """
-
     Args:
         account_structure: A suds object containing the Criteo account structure data
         account: A Criteo account
