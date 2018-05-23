@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.4.0
+## 1.4.0 - 1.4.1 (2018-05-22)
 
 - Include currency in account structure
 
