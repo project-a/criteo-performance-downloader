@@ -55,3 +55,8 @@ def retry_attempts() -> int:
 def retry_timeout() -> int:
     """How many seconds to wait before retrying to download an account"""
     return 30
+
+
+def redownload_window() -> int:
+    """The number of days for which the performance data will be redownloaded"""
+    return 30

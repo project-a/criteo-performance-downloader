@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+import datetime
 import errno
 import gzip
 import json
@@ -42,6 +43,7 @@ def download_data():
     """Creates the pycriteo API clients and downloads the data"""
     logger = logging.basicConfig(level=logging.INFO,
                                  format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
     accounts = config.accounts()
     for account in accounts:
         api_client = create_criteo_client(account)
@@ -102,13 +104,20 @@ def download_performance(api_client, account: CriteoAccount):
                     account_filename=account.normalized_name,
                     version=OUTPUT_FILE_VERSION))
 
-            filepath = abspath(ensure_data_directory(relative_filepath))
-            with tempfile.TemporaryDirectory() as tmp_dir:
-                tmp_filepath = Path(tmp_dir, filepath)
-                with gzip.open(str(filepath), 'wt') as criteo_performance_file:
-                    criteo_performance_file.write(json.dumps(report_data[day]))
+            day_datetime = datetime.strptime(day, '%Y-%m-%d')
+            last_datetime = datetime.now() - timedelta(days=1)
 
-                shutil.move(str(tmp_filepath), str(filepath))
+            # download if not existed or (re-)download if day in the redownload_window timeframe
+            if (not ensure_data_directory(relative_filepath).is_file()
+                    or (last_datetime - day_datetime).days <= int(config.redownload_window())):
+                logging.info('download {} campaign-performance for day: {}'.format(account.account_name, day))
+                filepath = abspath(ensure_data_directory(relative_filepath))
+                with tempfile.TemporaryDirectory() as tmp_dir:
+                    tmp_filepath = Path(tmp_dir, filepath)
+                    with gzip.open(str(filepath), 'wt') as criteo_performance_file:
+                        criteo_performance_file.write(json.dumps(report_data[day]))
+
+                    shutil.move(str(tmp_filepath), str(filepath))
 
 
 def download_account_structure(api_client, account: CriteoAccount):

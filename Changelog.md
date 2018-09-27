@@ -1,8 +1,9 @@
 # Changelog
 
-## 1.4.0 - 1.4.1 (2018-05-22)
+## 1.4.0 - 1.4.2 (2018-09-27)
 
 - Include currency in account structure
+- Add configurable re-download functionality (limited to the last 30 days by default)
 
 **required changes**
 
