@@ -1,6 +1,8 @@
 # Criteo Performance Downloader
 
-A Python script for downloading performance data using the [Criteo API](http://kb.criteo.com/advertising/index.php?action=artikel&cat=9&id=27&artlang=en) to local files. 
+A Python script for downloading performance data using the [Criteo API](http://kb.criteo.com/advertising/index.php?action=artikel&cat=9&id=27&artlang=en) to local files.
+
+The [mara Criteo performance pipeline](https://github.com/mara/criteo-performance-pipeline) can be, then, used for loading and transforming the downloaded data into a dimensional schema. 
 
 ## Resulting data
 By default, it creates two data sets:
