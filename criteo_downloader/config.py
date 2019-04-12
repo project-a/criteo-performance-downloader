@@ -1,3 +1,5 @@
+"""Configures access to the Criteo API"""
+
 class CriteoAccount:
     """A Criteo account"""
 

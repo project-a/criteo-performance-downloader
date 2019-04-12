@@ -17,10 +17,9 @@ from urllib.request import urlopen
 from xml.etree.ElementTree import ParseError
 from xml.sax._exceptions import SAXParseException
 
-from suds.sudsobject import asdict
-
 from criteo_downloader import config
 from criteo_downloader.config import CriteoAccount
+from suds.sudsobject import asdict
 
 OUTPUT_FILE_VERSION = 'v2'
 
