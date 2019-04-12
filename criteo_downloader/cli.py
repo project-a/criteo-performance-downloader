@@ -2,7 +2,7 @@ from functools import partial
 
 import click
 
-from criteo_downloader import config, downloader
+from . import config
 
 
 def config_option(config_function, **kwargs):
@@ -43,5 +43,6 @@ def download_data(**kwargs):
     Downloads data.
     When options are not specified, then the defaults from config.py are used.
     """
+    from . import downloader
     apply_options(**kwargs)
     downloader.download_data()
