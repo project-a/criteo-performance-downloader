@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.0.0 (2019-04-12)
+
+- Change MARA_XXX variables to functions to delay importing of imports
+
+**required changes** 
+
+- If used together with a mara project, Update `mara-app` to `>=2.0.0`
+
+
 ## 1.4.0 - 1.4.2 (2018-09-27)
 
 - Include currency in account structure
